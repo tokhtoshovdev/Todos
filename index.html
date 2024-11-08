@@ -20,7 +20,23 @@
                 <input type="text" id="input" placeholder="Add a new task" />
                 <button type="submit">Add Task</button>
             </form>
-            <ul id="list"></ul>
+            <ul id="list">
+                <!-- Vazifalar dinamik ravishda JavaScript orqali qo'shiladi -->
+            </ul>
+        </div>
+
+        <!-- Modal HTML -->
+        <div class="modal" id="editModal">
+            <div class="modal-content">
+                <h3>Edit Task</h3>
+                <input
+                    type="text"
+                    id="editInput"
+                    placeholder="Edit your task"
+                />
+                <button class="save-btn" id="saveBtn">Save</button>
+                <button class="cancel-btn" id="cancelBtn">Cancel</button>
+            </div>
         </div>
         <script src="./js/app.js"></script>
     </body>

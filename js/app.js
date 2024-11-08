@@ -2,7 +2,13 @@ const form = document.getElementById("form");
 const input = document.getElementById("input");
 const list = document.getElementById("list");
 
-// Vazifa qo'shish funksiyasi
+const editModal = document.getElementById("editModal");
+const editInput = document.getElementById("editInput");
+const saveBtn = document.getElementById("saveBtn");
+const cancelBtn = document.getElementById("cancelBtn");
+
+let currentTaskSpan = null;
+
 form.addEventListener("submit", function (e) {
     e.preventDefault();
     const taskText = input.value.trim();
@@ -12,7 +18,6 @@ form.addEventListener("submit", function (e) {
     }
 });
 
-// Vazifa qo'shish
 function addTask(text) {
     const li = document.createElement("li");
 
@@ -21,7 +26,6 @@ function addTask(text) {
     span.innerText = text;
     li.appendChild(span);
 
-    // O'chirish tugmasi
     const deleteBtn = document.createElement("button");
     deleteBtn.className = "delete_btn";
     deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
@@ -30,7 +34,6 @@ function addTask(text) {
     });
     li.appendChild(deleteBtn);
 
-    // Checkbox
     const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
     checkbox.className = "delete_check";
@@ -39,23 +42,39 @@ function addTask(text) {
     });
     li.appendChild(checkbox);
 
-    // Tahrirlash tugmasi
     const editBtn = document.createElement("button");
     editBtn.className = "edit_btn";
     editBtn.innerHTML = '<i class="fas fa-edit"></i>';
     editBtn.addEventListener("click", function () {
-        editTask(span);
+        openModal(span);
     });
     li.appendChild(editBtn);
 
     list.appendChild(li);
 }
 
-// Vazifani tahrirlash
-function editTask(span) {
-    const currentText = span.innerText;
-    const newText = prompt("Edit the task:", currentText);
-    if (newText !== null && newText.trim() !== "") {
-        span.innerText = newText.trim();
-    }
+function openModal(taskSpan) {
+    currentTaskSpan = taskSpan;
+    editInput.value = taskSpan.innerText;
+    editModal.style.display = "flex";
 }
+
+function closeModal() {
+    editModal.style.display = "none";
+    currentTaskSpan = null;
+}
+
+saveBtn.addEventListener("click", function () {
+    if (currentTaskSpan && editInput.value.trim() !== "") {
+        currentTaskSpan.innerText = editInput.value.trim();
+    }
+    closeModal();
+});
+
+cancelBtn.addEventListener("click", closeModal);
+
+window.addEventListener("click", function (e) {
+    if (e.target === editModal) {
+        closeModal();
+    }
+});
